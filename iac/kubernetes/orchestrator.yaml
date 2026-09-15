@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator
+  namespace: car-agentic
+spec:
+  replicas: 3
+  selector:
+    matchLabels: { app: orchestrator }
+  template:
+    metadata:
+      labels: { app: orchestrator }
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels: { app: orchestrator }
+      containers:
+        - name: orchestrator
+          image: caracr.azurecr.io/orchestrator:1.0.0
+          ports: [{ containerPort: 8080 }]
+          envFrom:
+            - configMapRef: { name: car-config }
+            - secretRef: { name: car-secrets }
+          readinessProbe:
+            httpGet: { path: /health/ready, port: 8080 }
+          resources:
+            requests: { cpu: 250m, memory: 384Mi }
+            limits: { cpu: "1", memory: 768Mi }
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orchestrator
+  namespace: car-agentic
+spec:
+  selector: { app: orchestrator }
+  ports: [{ port: 5080, targetPort: 8080 }]
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: orchestrator-pdb
+  namespace: car-agentic
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels: { app: orchestrator }
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: orchestrator-hpa
+  namespace: car-agentic
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: orchestrator }
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: { type: Utilization, averageUtilization: 60 }

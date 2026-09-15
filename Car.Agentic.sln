@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.BuildingBlocks", "src\dotnet\Car.BuildingBlocks\Car.BuildingBlocks.csproj", "{A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Domain", "src\dotnet\Car.Domain\Car.Domain.csproj", "{A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Application", "src\dotnet\Car.Application\Car.Application.csproj", "{A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Infrastructure", "src\dotnet\Car.Infrastructure\Car.Infrastructure.csproj", "{A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Gateway", "src\dotnet\Car.Gateway\Car.Gateway.csproj", "{A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Orchestrator", "src\dotnet\Car.Orchestrator\Car.Orchestrator.csproj", "{A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.LlmRouter", "src\dotnet\Car.LlmRouter\Car.LlmRouter.csproj", "{A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Memory", "src\dotnet\Car.Memory\Car.Memory.csproj", "{A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.ToolExecutor", "src\dotnet\Car.ToolExecutor\Car.ToolExecutor.csproj", "{A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Car.Ingestion", "src\dotnet\Car.Ingestion\Car.Ingestion.csproj", "{AA}"
+EndProject

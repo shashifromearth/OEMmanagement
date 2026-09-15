@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: car-agentic
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: car-config
+  namespace: car-agentic
+data:
+  KAFKA_BOOTSTRAP: "kafka.car-agentic.svc.cluster.local:9092"
+  REDIS_CONNECTION: "redis.car-agentic.svc.cluster.local:6379"
+  AGENT_RUNTIME_URL: "http://agent-runtime.car-agentic.svc.cluster.local:8088"
+  TOOL_EXECUTOR_URL: "http://tool-executor.car-agentic.svc.cluster.local:8080"
+  ASPNETCORE_URLS: "http://+:8080"
+  AZURE_SEARCH_INDEX: "vehicle-knowledge"
+  COSMOS_DATABASE: "car"
+  COSMOS_CONTAINER: "conversations"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: car-secrets
+  namespace: car-agentic
+type: Opaque
+stringData:
+  SQL_CONNECTION: "Server=sql.car-agentic.svc.cluster.local,1433;Database=CarOps;User Id=app;Password=CHANGE_ME;TrustServerCertificate=True"
+  COSMOS_ENDPOINT: "https://CHANGE_ME.documents.azure.com:443/"
+  COSMOS_KEY: "CHANGE_ME"
+  AZURE_OPENAI_ENDPOINT: "https://CHANGE_ME.openai.azure.com/"
+  AZURE_OPENAI_API_KEY: "CHANGE_ME"
+  AZURE_SEARCH_ENDPOINT: "https://CHANGE_ME.search.windows.net"
+  AZURE_SEARCH_KEY: "CHANGE_ME"
+  JWT_AUTHORITY: "https://login.microsoftonline.com/TENANT/v2.0"
+  JWT_AUDIENCE: "api://car-agentic"
